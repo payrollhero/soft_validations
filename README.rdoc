@@ -1,0 +1,41 @@
+SoftValidations
+===============
+
+This gem provides an additional Errors object, referred to as warnings, to ActiveModel objects.
+The warnings object is not tied in to a model's life cycle. Thus, an ActiveModel object can be
+saved while still having messages in its warnings. This might be useful for sites that would want
+to keep track of recommended fields for users to complete, or sites with large amounts of erroneous
+imported data which might benefit from suspending some validations for a little while.
+
+
+Example
+=======
+
+Include SoftValidations::ActiveModel and call soft_validation to add a descriptive declaration of an ActiveModel
+object's desired state in order to be considered complete. The methods or block passed to
+soft_validate should add a message to the class's warning collection.
+
+  class Employee
+    extend ActiveModel::Callbacks
+    include SoftValidations::ActiveModel
+
+    attr_accessor :first_name
+
+    soft_validate :should_have_first_name
+  
+    protected
+    def should_have_first_name
+      warnings.add(:first_name, "shouldn't be blank") unless self.first_name.present?
+    end
+  end
+
+To generate warnings, you should first call complete?
+
+	>> employee = Employee.new
+	>> employee.complete?
+	=> false
+	>> employee.warnings[:first_name]
+	=> [ "shouldn't be blank" ]
+
+
+Copyright (c) 2008 Julia West, released under the MIT license

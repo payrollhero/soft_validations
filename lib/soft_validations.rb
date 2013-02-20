@@ -1,5 +1,2 @@
-require File.dirname(__FILE__) + '/soft_validations/extensions'
+require 'soft_validations/active_model'
 
-class ActiveRecord::Base
-  include SoftValidations::Validations
-end

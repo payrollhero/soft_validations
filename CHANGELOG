@@ -1,2 +1,5 @@
+* 1.0 *
+  Updated to use ActiveModel and be Rails 3.x compatible
+
 * 0.1 *
 	Initial Release
